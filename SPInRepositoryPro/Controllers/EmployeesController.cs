@@ -199,5 +199,12 @@ namespace SPInRepositoryPro.Controllers
             if (Employee == null) return false;
             return true;
         }
+
+        public IActionResult newaddde()
+        {
+            return View();
+        }
     }
+
+
 }
