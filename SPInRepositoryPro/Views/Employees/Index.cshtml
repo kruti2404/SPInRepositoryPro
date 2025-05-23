@@ -1,0 +1,149 @@
+﻿@model IEnumerable<SPInRepositoryPro.Models.Employee>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+
+
+
+<form class="form-inline my-2 my-lg-0" asp-controller="Employees" asp-action="Index">
+	<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchTerm" name="SearchTerm">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				<a asp-route-SortColumn="Name" asp-route-SortDirection="@(ViewBag.SortDirection ==  "ASC" ? "DESC": "ASC" )"
+				   asp-route-PageNumber="@ViewBag.PageNumber"
+				   asp-route-PageSize="@ViewBag.PageSize"
+				   asp-route-SearchTerm="@ViewBag.SearchTerm">
+
+					@Html.DisplayNameFor(model => model.Name)
+				</a>
+			</th>
+			<th>
+				<a asp-route-SortColumn="Email" asp-route-SortDirection="@(ViewBag.SortDirection == "ASC" ? "DESC": "ASC" )"
+				   asp-route-PageNumber="@ViewBag.PageNumber"
+				   asp-route-PageSize="@ViewBag.PageSize"
+				   asp-route-SearchTerm="@ViewBag.SearchTerm">
+
+					@Html.DisplayNameFor(model => model.Email)
+				</a>
+			</th>
+			<th>
+				<a asp-route-SortColumn="Position" asp-route-SortDirection="@(ViewBag.SortDirection ==  "ASC" ? "DESC": "ASC" )"
+				   asp-route-PageNumber="@ViewBag.PageNumber"
+				   asp-route-PageSize="@ViewBag.PageSize"
+				   asp-route-SearchTerm="@ViewBag.SearchTerm">
+
+					@Html.DisplayNameFor(model => model.Position)
+				</a>
+			</th>
+			<th>
+				<a asp-route-SortColumn="DepartmentId" asp-route-SortDirection="@(ViewBag.SortDirection ==  "ASC" ? "DESC": "ASC" )"
+				   asp-route-PageNumber="@ViewBag.PageNumber"
+				   asp-route-PageSize="@ViewBag.PageSize"
+				   asp-route-SearchTerm="@ViewBag.SearchTerm">
+
+					@Html.DisplayNameFor(model => model.DepartmentId)
+				</a>
+			</th>
+
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Email)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Position)
+				</td>
+				<td>
+					@if (item.DepartmentId != null && ViewBag.DepartmentNames.ContainsKey(item.DepartmentId))
+					{
+						@ViewBag.DepartmentNames[item.DepartmentId]
+					}
+					else
+					{
+						<span>No Department</span>
+					}
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+					<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+
+
+
+
+
+<nav aria-label="...">
+	<ul class="pagination justify-content-center">
+		<li class="page-item @(ViewBag.PageNumber <= 1 ? "disabled" : "")">
+			<a class="page-link"
+			   asp-route-PageNumber="@(ViewBag.PageNumber - 1)"
+			   asp-route-PageSize="@ViewBag.PageSize"
+			   asp-route-SearchTerm="@ViewBag.SearchTerm"
+			   asp-route-SortColumn="@ViewBag.SortColumn"
+			   asp-route-SortDirection="@ViewBag.SortDirection">
+				Previous
+			</a>
+		</li>
+
+
+
+
+		@for (int i = 1; i <= ViewBag.TotalPages; i++)
+		{
+			<li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+				<a class="page-link"
+				   asp-route-PageNumber="@i"
+				   asp-route-PageSize="@ViewBag.PageSize"
+				   asp-route-SearchTerm="@ViewBag.SearchTerm"
+				   asp-route-SortColumn="@ViewBag.SortColumn"
+				   asp-route-SortDirection="@ViewBag.SortDirection">
+					@i
+				</a>
+			</li>
+		}
+
+
+
+		<li class="page-item @(ViewBag.PageNumber >= ViewBag.TotalPages ? "disabled" : "")">
+			<a class="page-link"
+			   asp-route-PageNumber="@(ViewBag.PageNumber + 1)"
+			   asp-route-PageSize="@ViewBag.PageSize"
+			   asp-route-SearchTerm="@ViewBag.SearchTerm"
+			   asp-route-SortColumn="@ViewBag.SortColumn"
+			   asp-route-SortDirection="@ViewBag.SortDirection">
+				Next
+			</a>
+		</li>
+
+	</ul>
+</nav>
